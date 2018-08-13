@@ -22,7 +22,7 @@ public class ProbeData {
 
 	private static void findProbes() {
 		int line = 1;
-		while(EMPTY_CELL.equals(sheet.getValueAt(0, line))){		
+		while(!EMPTY_CELL.equals(sheet.getValueAt(0, line))){		
 			checkModel(line);		
 			line++;
 		}

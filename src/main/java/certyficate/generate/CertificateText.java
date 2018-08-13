@@ -27,7 +27,7 @@ public class CertificateText {
 	private static final String FILE_EXTENCTION = ".ods";
 	private static final String TEMPERATURE_PROBE = "Czujnik temperatury: ";
 	private static final String CHANNEL_NAME = " (nazwa kanału: ";
-	private static final String WITH  = " ,z";
+	private static final String WITH  = ",z ";
 	
 	private static double[] environmentData;
 	
