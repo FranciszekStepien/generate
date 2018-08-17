@@ -90,7 +90,11 @@ public abstract class Logger {
 	protected void checkFileData() {}
 	
 	protected abstract PointData divide(String nextLine);
-
+	
+	protected void setNewReader() throws IOException {
+		setReader();
+	}
+	
 	private void setReader() throws IOException {
     	reader = ReaderCreator.getReader(file);
     	removeNonDataLine();
@@ -112,16 +116,21 @@ public abstract class Logger {
 	
 	private void noDataMessage() {
 		System.out.println(noDataInformation());
-		data[currentPoint] = null;
+		setNonDataInCurrentPoint();
 	}
 	
+	private void setNonDataInCurrentPoint() {
+		data[currentPoint] = null;
+		calibrationPoints.get(currentPoint).nonData();
+	}
+
 	private StringBuilder noDataInformation() {
 		StringBuilder build = new StringBuilder(NON_DATA_INFROMATION);
 		build.append(currentPoint + 1);
 		return build;
 	} 
 
-	private boolean checkLine(String line) {
+	private boolean checkLine(String line) throws IOException {
 		boolean isData = checkPoint();
 		if(isData) {
 			isData = isLineData(line);
@@ -129,7 +138,7 @@ public abstract class Logger {
 		return isData;
 	}
 	
-	private boolean isLineData(String line) {
+	private boolean isLineData(String line) throws IOException {
 		boolean answer = true;
 		if(line == null) {
 			answer = false;
@@ -138,9 +147,16 @@ public abstract class Logger {
 		return answer;
 	}
 
-	private void nextPoint() {
-		noDataMessage();
+	private void nextPoint() throws IOException {
+		noDataMessage(); 
+		checkNewReader();
+	}
+	
+	private void checkNewReader() throws IOException {
 		currentPoint++;
+		if(checkPoint()) {
+			setNewReader();
+		}
 	}
 
 	private boolean checkPoint() {

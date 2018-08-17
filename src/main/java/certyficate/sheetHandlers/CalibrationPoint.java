@@ -21,6 +21,8 @@ public class CalibrationPoint{
 	
 	private int number;
 	
+	private boolean isData = true;
+	
 	private String date;
 	private String time;
 	
@@ -54,6 +56,10 @@ public class CalibrationPoint{
 		return number;
 	}
 	
+	public void nonData() {
+		isData = false;
+	}
+	
 	public void setPointNumber(int number){
 		this.number= number;
 	}	
@@ -67,7 +73,7 @@ public class CalibrationPoint{
 	}
 	
 	public boolean equalDay(CalibrationPoint point) {
-		return date.equals(point.getDate());
+		return isData && date.equals(point.getDate());
 	}
 
 	public void setDate(String dateString) {

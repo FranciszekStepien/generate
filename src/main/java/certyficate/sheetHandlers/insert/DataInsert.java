@@ -62,8 +62,14 @@ public class DataInsert {
 	private void insetLine(PointData[] data, int line) {
 		int column = SheetData.timeColumn;
 		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
-			insertPoint(data[i], column, line);
+			checkPoint(data[i], column, line);
 			column += 3;
+		}
+	}
+
+	private void checkPoint(PointData pointData, int column, int line) {
+		if(pointData != null) {
+			insertPoint(pointData, column, line);
 		}
 	}
 

@@ -42,13 +42,23 @@ public class Rotronic extends Logger {
 	@Override
 	protected void checkFileData() {
 		if(checkCurrenPoint()) {
-			checkNextPointDate();
-			checkNextPoint();
+			checkNextPointData();
 		}
+	}
+
+	@Override
+	protected void setNewReader() throws IOException {
+		currentPoint--;
+		checkNextPointData();
 	}
 	
 	private boolean checkCurrenPoint() {
 		return currentPoint + 1 < calibrationPoints.size();
+	}
+	
+	private void checkNextPointData() {
+		checkNextPointDate();
+		checkNextPoint();
 	}
 
 	private String setDate(String data, String time) {
