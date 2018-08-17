@@ -17,10 +17,12 @@ public class MeasurementsData {
 	private static final String EMPTY_CELL = "";
 	
 	private static List<CalibrationPoint> points;
-    
-	private static Sheet sheet;
 	
+	private static List<Order> toRemove;
+    
 	private static List<Measurements> devices;
+	
+	private static Sheet sheet;
 
     public static void findProbeData() {
     	int line = SheetData.startRow - CalibrationData.numberOfParameters;
@@ -30,6 +32,7 @@ public class MeasurementsData {
 	
 	public static void findMeasurementsData() throws IOException {
 		setSheet();
+		setRemoveList();
 		getCalibtationPoints();
 		findMeasurments();
 	}
@@ -37,11 +40,16 @@ public class MeasurementsData {
 	private static void findMeasurments() {
 		devices = MeasurementResults.findMeasurmentData(sheet);
 		addMeasurmentsToOrders();
+		removeOrderWithoutMeasurments();
 	}
 
 	private static void setSheet() throws IOException {
 		File file = CalibrationData.sheet;
 		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
+	}
+	
+	private static void setRemoveList() {
+		toRemove = new ArrayList<Order>();
 	}
 	
 	private static void getCalibtationPoints() {
@@ -109,8 +117,15 @@ public class MeasurementsData {
 	
 	private static void checkMeasurmentsData(Order order) {
 		if(order.getMeasurmets() == null) {
+			toRemove.add(order);
+		}
+	}
+	
+	private static void removeOrderWithoutMeasurments() {
+		for(Order order: toRemove) {
 			CalibrationData.orders.remove(order);
 		}
+		toRemove = null;
 	}
 }
  
