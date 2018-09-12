@@ -27,7 +27,7 @@ public class CertificateText {
 	private static final String FILE_EXTENCTION = ".ods";
 	private static final String TEMPERATURE_PROBE = "Czujnik temperatury: ";
 	private static final String CHANNEL_NAME = " (nazwa kanału: ";
-	private static final String WITH  = ",z ";
+	private static final String WITH  = ", z ";
 	
 	private static double[] environmentData;
 	
@@ -50,13 +50,7 @@ public class CertificateText {
 	}
 
 	public static String setDescription(Order certificate) {
-		StringBuilder builder = new StringBuilder(certificate.getDevice().getType());
-		builder.append(MODEL); 
-		builder.append(certificate.getDevice().getModel());
-		builder.append(MANOFACTURER);
-		builder.append(certificate.getDevice().getProducent());
-		builder.append(SERIAL_NUMBER);
-		builder.append(certificate.getDeviceSerialNumber());
+		StringBuilder builder = setBasicDescription(certificate);
 		if(!EMPTY_STRING.equals(certificate.getProbeSerialNumber())) {
 			builder.append(setProbe(certificate));
 		}
@@ -122,6 +116,17 @@ public class CertificateText {
 		return builder.toString();
 	}
 	
+	private static StringBuilder setBasicDescription(Order certificate) {
+		StringBuilder builder = new StringBuilder(certificate.getDevice().getType());
+		builder.append(MODEL); 
+		builder.append(certificate.getDevice().getModel());
+		builder.append(MANOFACTURER);
+		builder.append(certificate.getDevice().getProducent());
+		builder.append(SERIAL_NUMBER);
+		builder.append(certificate.getDeviceSerialNumber());
+		return builder;
+	}
+	
 	private static StringBuilder setProbe(Order certificate) {
 		StringBuilder builder;
 		if(EMPTY_STRING.equals(certificate.getProbe().getType())) {
@@ -135,7 +140,7 @@ public class CertificateText {
 	private static StringBuilder probeWithoutModel(Order certificate) {
 		StringBuilder builder = new StringBuilder(WITH);
 		builder.append(certificate.getProbe().getModel());
-		builder.append(MANOFACTURER);
+		builder.append(SERIAL_NUMBER);
 		builder.append(certificate.getProbeSerialNumber());
 		return builder;
 	}

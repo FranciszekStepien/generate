@@ -16,6 +16,7 @@ import certyficate.entitys.Device;
 import certyficate.files.PathCreator;
 import certyficate.generate.CertificateText;
 import certyficate.generate.CertificateValue;
+import certyficate.generate.Special;
 import certyficate.generate.certificate.Certificate;
 import certyficate.property.CalibrationData;
 import certyficate.property.DataCalculation;
@@ -40,7 +41,7 @@ public abstract class Note {
 	
 	protected static int calibrationPointCount;
 	protected int numberOfData;
-	private int channelCount;
+	private static int channelCount;
 	
 	protected static double round;
 	
@@ -75,7 +76,8 @@ public abstract class Note {
 	protected boolean havePointData(int index) {
 		boolean haveData = order.getMeasurments(index).haveMeasurments;
 		haveData &= reference[index].haveData();
-		haveData &= reference[index].getValue(0) == order.getPoint(calibrationPointCount, 0);
+		haveData &= reference[index].getValue(0) 
+				== order.getPoint(calibrationPointCount, 0);
 		return haveData;
 	}
 	
@@ -133,13 +135,19 @@ public abstract class Note {
 
 	private static void setCalibrationData(Order orderData) {
 		order = orderData;
+		channelCount = 0;
 	}
 
 	private void setNoteData() throws FileNotFoundException, IOException {
+		checkOrder();
 		setSheet();
 		setSheetData();
 	}
 	
+	private void checkOrder() {
+		Special.checkSpecial(order);
+	}
+
 	private void setSheet() throws IOException {
 		String pathToNote = PathCreator.filePath(noteFile);
 		File noteFile = new File(pathToNote);

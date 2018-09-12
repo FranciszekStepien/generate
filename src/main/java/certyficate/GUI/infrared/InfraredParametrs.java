@@ -26,8 +26,6 @@ public class InfraredParametrs extends JDialog {
 	public static final int HIGHT = 600;
 	public static final int DEVICES_PER_LINE = 3;
 	
-	private JButton accept;
-	
 	private PyrometerPanel[] pyrometers;
 	
 	private List<Order> data;
@@ -85,7 +83,6 @@ public class InfraredParametrs extends JDialog {
 	
 	private void setElements() {
 		pyrometers = new PyrometerPanel[data.size()];
-		accept = getAcceptButton();
 		constrain = new GridBagConstraints();
 	}
 
@@ -130,7 +127,8 @@ public class InfraredParametrs extends JDialog {
 	private String setName(int index) {
 		int startOfName = index + 1;
 		int endOfName = findMinimum(index);
-		StringBuilder bulid = new StringBuilder(startOfName);
+		StringBuilder bulid = new StringBuilder();
+		bulid.append(startOfName);
 		bulid.append(NUMBER_SEPARATOR);
 		bulid.append(endOfName);
 		return bulid.toString();
@@ -145,7 +143,7 @@ public class InfraredParametrs extends JDialog {
 	}
 
 	private JPanel getPanel(int index) {
-		int lastObjectInPanel = findMinimum(index);;
+		int lastObjectInPanel = findMinimum(index);
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		for(int i = index; i < lastObjectInPanel; i++){
@@ -168,7 +166,8 @@ public class InfraredParametrs extends JDialog {
 		constrain.gridy++;
 		constrain.gridx = 0;
 		constrain.gridwidth = 3;
-		panel.add(accept, constrain);
+		panel.add(getAcceptButton(), constrain);
+		constrain.gridwidth = 1;
 	}
 }
 

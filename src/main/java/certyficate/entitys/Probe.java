@@ -5,6 +5,14 @@ public class Probe{
 	private String type;
 	private String producent;
 	  
+	public Probe() {
+		super();
+	}
+	
+	public Probe(String model) {
+		setModel(model);
+	}
+
 	public void setModel(String model) {
 		this.model = model;
 	}

@@ -175,7 +175,23 @@ public abstract class Logger {
 		insertPointDataMessage(pointData.getTime());
 		data[currentPoint][0] = pointData;
 		setPointData();
+		checkNextPoint();
+	}
+
+	private void checkNextPoint() {
 		currentPoint++;
+		if(checkPoint()) {
+			checkTimeAndData();
+		}
+	}
+
+	private void checkTimeAndData() {
+		CalibrationPoint point = calibrationPoints.get(currentPoint - 1);
+		CalibrationPoint nextPoint = calibrationPoints.get(currentPoint);
+		if(point.equalDate(nextPoint)) {
+			data[currentPoint] = null;
+			checkNextPoint();
+		}
 	}
 
 	private void insertPointDataMessage(String time) {

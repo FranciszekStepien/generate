@@ -46,6 +46,7 @@ public class MeasurementsData {
 	private static void setSheet() throws IOException {
 		File file = CalibrationData.sheet;
 		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
+		toRemove = new ArrayList<Order>();
 	}
 	
 	private static void setRemoveList() {
